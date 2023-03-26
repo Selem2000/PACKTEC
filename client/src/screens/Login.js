@@ -10,13 +10,24 @@ import {
   Text,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { login } from "../JS/actions/user";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [logoAnim] = useState(new Animated.Value(0));
   const navigation = useNavigation();
+  const [user, setUser] = useState({});
+  const dispatch = useDispatch();
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    dispatch(login(user, navigation));
+  };
   useEffect(() => {
     Animated.timing(logoAnim, {
       toValue: 1,
@@ -25,19 +36,19 @@ const Login = () => {
     }).start();
   }, []);
 
-  const handleLogin = () => {
-    if (email === "user" && password === "user") {
-      navigation.navigate("User");
-    } else if (email === "admin" && password === "admin") {
-      navigation.navigate("Admin");
-    } else if (email === "manager" && password === "manager") {
-      navigation.navigate("Manager");
-    } else if (email === "transport" && password === "transport") {
-      navigation.navigate("Transporteur");
-    }else {
-      Alert.alert("Error", "Invalid email or password. Please try again.");
-    }
-  };
+  // const handleLogin = () => {
+  //   if (email === "user" && password === "user") {
+  //     navigation.navigate("User");
+  //   } else if (email === "admin" && password === "admin") {
+  //     navigation.navigate("Admin");
+  //   } else if (email === "manager" && password === "manager") {
+  //     navigation.navigate("Manager");
+  //   } else if (email === "transport" && password === "transport") {
+  //     navigation.navigate("Transporteur");
+  //   } else {
+  //     Alert.alert("Error", "Invalid email or password. Please try again.");
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -49,15 +60,15 @@ const Login = () => {
         style={styles.input}
         placeholder="Email"
         autoCapitalize="none"
-        onChangeText={(text) => setEmail(text)}
-        value={email}
+        onChangeText={(text) => setUser({ ...user, email: text })}
+        required
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry={true}
-        onChangeText={(text) => setPassword(text)}
-        value={password}
+        onChangeText={(text) => setUser({ ...user, password: text })}
+        required
       />
       <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
         <View style={styles.button}>

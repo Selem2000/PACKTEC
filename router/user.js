@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require("cors");
+
 const {
   Register,
   Login,
@@ -25,7 +27,7 @@ router.post("/register", Register);
 @ parameter: req.body  
 public
 */
-router.post("/login", Login);
+router.post("/login", cors(), Login);
 
 /*
 @method: GET
@@ -33,7 +35,7 @@ router.post("/login", Login);
 @ parameter: req.headers  
 public
 */
-router.get("/current", Auth, (req, res) => {
+router.get("/current", cors(), Auth, (req, res) => {
   res.send({ msg: "authorized", user: req.user });
 });
 
@@ -43,7 +45,7 @@ router.get("/current", Auth, (req, res) => {
 @ parameter
 public
 */
-router.get("/", getAllUsers);
+router.get("/", cors(), getAllUsers);
 
 /*
 @method: GET
@@ -51,7 +53,7 @@ router.get("/", getAllUsers);
 @ parameter
 public
 */
-router.get("/:id", getUserByID);
+router.get("/:id", cors(), getUserByID);
 
 /*
 @method: DELETE
@@ -67,6 +69,6 @@ router.delete("/:id", deleteUser);
 @ parameter: body 
 public
 */
-router.put("/:id", updateUser);
+router.put("/:id", cors(), updateUser);
 
 module.exports = router;

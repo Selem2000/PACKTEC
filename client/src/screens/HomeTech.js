@@ -1,46 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
 import { BarChart } from "react-native-chart-kit";
-
-const posts = [
-  {
-    id: "1",
-    title: "aaaaaaaa ",
-    image: require("../../assets/images/logo.png"),
-    description:
-      "Packtec VisualCX Platform powered by Grypp, stands out as a new digital technology solution.",
-  },
-  {
-    id: "2",
-    title: "Packtec  Green Achievements",
-    image: require("../../assets/images/logo.png"),
-    description:
-      "Packtec Earns awards from EcoVadis, Ecological Blue Flag Program, and for Greenhouse Gas emission reduction.",
-  },
-  {
-    id: "3",
-    title: "Packtec Ranked",
-    image: require("../../assets/images/logo.png"),
-    description:
-      "Company also Ranked Tenth in Best Workplaces in Latin America NEWARK, Calif., Oct. 13, 2022 (GLOBE NEWSWIRE) — Packtec Corporation (Nasdaq: CNXC), a leading global provider.",
-  },
-  {
-    id: "4",
-    title: "Packtec HR Software",
-    image: require("../../assets/images/logo.png"),
-    description:
-      "Best in Biz Awards recognize Packtec for maximizing the impact of wellness ",
-  },
-  {
-    id: "5",
-    title: "Packtec Wins Environmental Program of the Year",
-    image: require("../../assets/images/logo.png"),
-    description:
-      "Best in Biz Awards recognizes Packtec’ One Packtec, One Earth Sustainability Program For a second year.",
-  },
-];
-
+import { useDispatch, useSelector } from "react-redux";
+import { getAllPosts } from "../JS/actions/post";
 
 const absenceData = [
   {
@@ -82,10 +45,19 @@ const chartConfig = {
 const screenWidth = Dimensions.get("window").width;
 
 const HomeTech = () => {
+  const posts = useSelector((state) => state.post.posts);
+  const Img = require("../../assets/images/logo.png");
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllPosts());
+  }, []);
+
   const renderPost = ({ item }) => {
     return (
       <View style={styles.postContainer}>
-        <Image source={item.image} style={styles.postImage} />
+        <Image source={Img} style={styles.postImage} />
         <View style={styles.postTextContainer}>
           <Text style={styles.postTitle}>{item.title}</Text>
           <Text style={styles.postDescription}>{item.description}</Text>
@@ -119,7 +91,7 @@ const HomeTech = () => {
       <FlatList
         data={posts}
         renderItem={renderPost}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
       />
     </View>
   );

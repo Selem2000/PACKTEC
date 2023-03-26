@@ -1,15 +1,11 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome5 } from 'react-native-vector-icons';
-import { AntDesign } from 'react-native-vector-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faUserTie } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesome5Brands } from 'react-native-vector-icons';
-import { Image } from 'react-native';
-import { ScrollView } from 'react-native';
-
-
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "react-native-vector-icons";
+import { AntDesign } from "react-native-vector-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { Image } from "react-native";
 
 import {
   DashboardScreen,
@@ -32,23 +28,29 @@ import {
   Schedulerequestscreen,
 } from "./src/screens/Index";
 import DrawerItems from "./src/Components/DrawerItems";
-import { View } from "react-native";
-import Login from "./src/screens/Login";
-import Welcome from "./src/screens/Welcome";
 import { createStackNavigator } from "@react-navigation/stack";
 import Savoir from "./src/screens/Savoir";
 import NextWeekSchedule from "./src/screens/NextWeekSchedule";
 import wellnessScreen from "./src/screens/Wellness";
 import Opsscreen from "./src/OPs";
-import Trasporthome from "./src/screens/Trasporthome";
 import PickupScreen from "./src/screens/Pickup";
 import RidetoScreen from "./src/screens/Rideto";
 import TransporthomeScreen from "./src/screens/Trasporthome";
+import store from "./src/JS/store/store";
+import { useEffect } from "react";
+import { current } from "./src/JS/actions/user";
+import { Provider, useDispatch } from "react-redux";
+import { getAllPosts } from "./src/JS/actions/post";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 function MyStack() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(current());
+  }, []);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -69,7 +71,6 @@ function MyStack() {
 }
 function User() {
   return (
-    
     <Drawer.Navigator
       initialRouteName="Home"
       screenOptions={{
@@ -77,20 +78,20 @@ function User() {
           paddingTop: 100,
           width: 280,
         },
-        drawerActiveTintColor: '#007AFF',
-        drawerInactiveTintColor: '#8E8E93',
+        drawerActiveTintColor: "#007AFF",
+        drawerInactiveTintColor: "#8E8E93",
       }}
       drawerContent={(props) => <DrawerItems {...props} />}
-      >
+    >
       <Drawer.Screen
         name="Home"
         component={UserHomeScreen}
         options={{
           drawerIcon: ({ focused, size }) => (
             <Ionicons
-              name={focused ? 'home' : 'home-outline'}
+              name={focused ? "home" : "home-outline"}
               size={size}
-              color={focused ? '#007AFF' : '#8E8E93'}
+              color={focused ? "#007AFF" : "#8E8E93"}
             />
           ),
         }}
@@ -101,14 +102,14 @@ function User() {
         options={{
           drawerIcon: ({ focused, size }) => (
             <Ionicons
-              name={focused ? 'stats-chart' : 'stats-chart-outline'}
+              name={focused ? "stats-chart" : "stats-chart-outline"}
               size={size}
-              color={focused ? '#007AFF' : '#8E8E93'}
+              color={focused ? "#007AFF" : "#8E8E93"}
             />
           ),
         }}
       />
-       <Drawer.Screen
+      <Drawer.Screen
         name="My Schedule"
         component={MyscheduleScreen}
         options={{
@@ -116,7 +117,7 @@ function User() {
             <FontAwesome5
               name="calendar-day"
               size={size}
-              color={focused ? '#007AFF' : '#8E8E93'}
+              color={focused ? "#007AFF" : "#8E8E93"}
             />
           ),
         }}
@@ -129,7 +130,7 @@ function User() {
             <FontAwesome5
               name="exchange-alt"
               size={size}
-              color={focused ? '#007AFF' : '#8E8E93'}
+              color={focused ? "#007AFF" : "#8E8E93"}
             />
           ),
         }}
@@ -142,7 +143,7 @@ function User() {
             <FontAwesome5
               name="cloud-sun"
               size={size}
-              color={focused ? '#007AFF' : '#8E8E93'}
+              color={focused ? "#007AFF" : "#8E8E93"}
             />
           ),
         }}
@@ -156,41 +157,37 @@ function User() {
             <FontAwesome5
               name="list-alt"
               size={size}
-              color={focused ? '#007AFF' : '#8E8E93'}
+              color={focused ? "#007AFF" : "#8E8E93"}
             />
-            
           ),
         }}
       />
-     
-      <Drawer.Screen
-      name="Book My Transport"
-      component={TransportScreen}
-      options={{
-      drawerIcon: ({ focused, color, size }) => (
-        <Ionicons
-          name={focused ? 'bus' : 'bus-outline'}
-          size={size}
-          color={color}
-      />
-      
-    ),
-    
-  }}
-/>
-<Drawer.Screen
-  name="Wellness Bot"
-  component={wellnessScreen}
-  options={{
-    drawerIcon: ({ focused, size }) => (
-      <Image
-        source={require('./assets/images/Welly.gif')}
-        style={{ width: 30, height: 50 }}
-      />
-    ),
-  }}
-/>
 
+      <Drawer.Screen
+        name="Book My Transport"
+        component={TransportScreen}
+        options={{
+          drawerIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name={focused ? "bus" : "bus-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Wellness Bot"
+        component={wellnessScreen}
+        options={{
+          drawerIcon: ({ focused, size }) => (
+            <Image
+              source={require("./assets/images/Welly.gif")}
+              style={{ width: 30, height: 50 }}
+            />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 }
@@ -208,188 +205,170 @@ function Admin() {
       drawerContent={(props) => <DrawerItems {...props} />}
       contentContainerStyle={{ flex: 1 }}
     >
-      <Drawer.Screen 
-        name="Home" 
-        component={HomeAdminScreen} 
+      <Drawer.Screen
+        name="Home"
+        component={HomeAdminScreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons
-              name={focused ? 'home' : 'home-outline'}
+              name={focused ? "home" : "home-outline"}
               size={size}
               color={color}
             />
           ),
         }}
       />
-      <Drawer.Screen 
-      name="Staff Dashboard" 
-      component={DashboardScreen} 
-      options={{
-        drawerIcon: ({ focused, color, size }) => (
-          <AntDesign
-            name="piechart"
-            size={size}
-            color={color}
-          />
-
-    ),
-  }}
-/>
-      <Drawer.Screen 
-       name="Ops Upper Staff" 
-        component={StaffDashboardScreen} 
+      <Drawer.Screen
+        name="Staff Dashboard"
+        component={DashboardScreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
-            <FontAwesomeIcon
-              icon={faUserTie}
-              size={size}
-              color={color}
-            />
-          ),
-  }}
-/>
-      <Drawer.Screen 
-        name="Global Absence" 
-        component={AbsenceGlobaladminScreen} 
-        options={{
-          drawerIcon: ({ focused, color, size }) => (
-            <AntDesign
-              name="areachart"
-              size={size}
-              color={color}
-            />
-            
-            
+            <AntDesign name="piechart" size={size} color={color} />
           ),
         }}
       />
-      <Drawer.Screen 
-        name="Asus" 
-        component={Opsscreen} 
+      <Drawer.Screen
+        name="Ops Upper Staff"
+        component={StaffDashboardScreen}
+        options={{
+          drawerIcon: ({ focused, color, size }) => (
+            <FontAwesomeIcon icon={faUserTie} size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Global Absence"
+        component={AbsenceGlobaladminScreen}
+        options={{
+          drawerIcon: ({ focused, color, size }) => (
+            <AntDesign name="areachart" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Asus"
+        component={Opsscreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Image
-        source={require('./assets/images/asus.png')}
-        style={{ width: size, height: size }}
-      />
+              source={require("./assets/images/asus.png")}
+              style={{ width: size, height: size }}
+            />
           ),
         }}
       />
-      <Drawer.Screen 
-        name="Bytedance" 
-        component={Opsscreen} 
+      <Drawer.Screen
+        name="Bytedance"
+        component={Opsscreen}
         options={{
           drawerIcon: ({ focused, size }) => (
             <Image
-        source={require('./assets/images/bytedance.png')}
-        style={{ width: size, height: size }}
-      />
-          
+              source={require("./assets/images/bytedance.png")}
+              style={{ width: size, height: size }}
+            />
           ),
         }}
       />
-      <Drawer.Screen 
-        name="C-Discount " 
-        component={Opsscreen} 
+      <Drawer.Screen
+        name="C-Discount "
+        component={Opsscreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Image
-        source={require('./assets/images/cdiscount.png')}
-        style={{ width: size, height: size }}
-      />
+              source={require("./assets/images/cdiscount.png")}
+              style={{ width: size, height: size }}
+            />
           ),
         }}
       />
-     <Drawer.Screen 
-  name="HP" 
-  component={Opsscreen} 
-  options={{
-    drawerIcon: ({ focused, color, size }) => (
-      <Image
-        source={require('./assets/images/hp.png')}
-        style={{ width: size, height: size }}
+      <Drawer.Screen
+        name="HP"
+        component={Opsscreen}
+        options={{
+          drawerIcon: ({ focused, color, size }) => (
+            <Image
+              source={require("./assets/images/hp.png")}
+              style={{ width: size, height: size }}
+            />
+          ),
+        }}
       />
-    ),
-  }}
-/>
 
-      <Drawer.Screen 
-        name="HP canada" 
-        component={Opsscreen} 
+      <Drawer.Screen
+        name="HP canada"
+        component={Opsscreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Image
-        source={require('./assets/images/hp.png')}
-        style={{ width: size, height: size }}
-      />
+              source={require("./assets/images/hp.png")}
+              style={{ width: size, height: size }}
+            />
           ),
         }}
       />
-      <Drawer.Screen 
-        name="Hub Telecom" 
-        component={Opsscreen} 
+      <Drawer.Screen
+        name="Hub Telecom"
+        component={Opsscreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Image
-        source={require('./assets/images/hub.jpg')}
-        style={{ width: size, height: size }}
-      />
+              source={require("./assets/images/hub.jpg")}
+              style={{ width: size, height: size }}
+            />
           ),
         }}
       />
-      <Drawer.Screen 
-        name="Kiwi" 
-        component={Opsscreen} 
+      <Drawer.Screen
+        name="Kiwi"
+        component={Opsscreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Image
-        source={require('./assets/images/kiwi.png')}
-        style={{ width: size, height: size }}
-      />
+              source={require("./assets/images/kiwi.png")}
+              style={{ width: size, height: size }}
+            />
           ),
         }}
       />
-      <Drawer.Screen 
-        name="Orange Pro" 
-        component={Opsscreen} 
+      <Drawer.Screen
+        name="Orange Pro"
+        component={Opsscreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Image
-        source={require('./assets/images/orange.jpg')}
-        style={{ width: size, height: size }}
-      />
+              source={require("./assets/images/orange.jpg")}
+              style={{ width: size, height: size }}
+            />
           ),
         }}
       />
-      <Drawer.Screen 
-        name="Sirius" 
-        component={Opsscreen} 
+      <Drawer.Screen
+        name="Sirius"
+        component={Opsscreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Image
-        source={require('./assets/images/siruis.png')}
-        style={{ width: size, height: size }}
-      />
+              source={require("./assets/images/siruis.png")}
+              style={{ width: size, height: size }}
+            />
           ),
         }}
       />
-      <Drawer.Screen 
-        name="Xerox" 
-        component={Opsscreen} 
+      <Drawer.Screen
+        name="Xerox"
+        component={Opsscreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Image
-        source={require('./assets/images/xe.png')}
-        style={{ width: size, height: size }}
-      />
+              source={require("./assets/images/xe.png")}
+              style={{ width: size, height: size }}
+            />
           ),
         }}
       />
     </Drawer.Navigator>
-    
   );
 }
-
 
 function Manager() {
   return (
@@ -410,7 +389,7 @@ function Manager() {
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons
-              name={focused ? 'home' : 'home-outline'}
+              name={focused ? "home" : "home-outline"}
               size={size}
               color={color}
             />
@@ -423,7 +402,7 @@ function Manager() {
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons
-              name={focused ? 'people' : 'people-outline'}
+              name={focused ? "people" : "people-outline"}
               size={size}
               color={color}
             />
@@ -436,20 +415,20 @@ function Manager() {
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons
-              name={focused ? 'bar-chart' : 'bar-chart-outline'}
+              name={focused ? "bar-chart" : "bar-chart-outline"}
               size={size}
               color={color}
             />
           ),
         }}
       />
-       <Drawer.Screen
+      <Drawer.Screen
         name="Absence Global"
         component={AbsenceGlobalScreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <FontAwesome5
-              name={focused ? 'chart-area' : 'chart-area'}
+              name={focused ? "chart-area" : "chart-area"}
               size={size}
               color={color}
             />
@@ -464,7 +443,7 @@ function Manager() {
             <FontAwesome5
               name="cloud-sun"
               size={size}
-              color={focused ? '#007AFF' : '#8E8E93'}
+              color={focused ? "#007AFF" : "#8E8E93"}
             />
           ),
         }}
@@ -474,30 +453,24 @@ function Manager() {
         component={Schedulerequestscreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
-            <FontAwesome5
-              name={'calendar-day'}
-              size={size}
-              color={color}
-            />
+            <FontAwesome5 name={"calendar-day"} size={size} color={color} />
           ),
         }}
       />
-     
+
       <Drawer.Screen
         name="Transport"
         component={TransportScreen}
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons
-              name={focused ? 'bus' : 'bus-outline'}
+              name={focused ? "bus" : "bus-outline"}
               size={size}
               color={color}
             />
           ),
         }}
       />
-      
-      
     </Drawer.Navigator>
   );
 }
@@ -520,7 +493,7 @@ function Transporteur() {
         options={{
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons
-              name={focused ? 'home' : 'home-outline'}
+              name={focused ? "home" : "home-outline"}
               size={size}
               color={color}
             />
@@ -535,7 +508,7 @@ function Transporteur() {
             <FontAwesome5
               name="bus-alt"
               size={size}
-              color={focused ? '#007AFF' : '#8E8E93'}
+              color={focused ? "#007AFF" : "#8E8E93"}
             />
           ),
         }}
@@ -548,22 +521,21 @@ function Transporteur() {
             <FontAwesome5
               name="bus"
               size={size}
-              color={focused ? '#007AFF' : '#8E8E93'}
+              color={focused ? "#007AFF" : "#8E8E93"}
             />
           ),
         }}
       />
-  
-      
     </Drawer.Navigator>
   );
 }
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <MyStack />
-    </NavigationContainer>
-
+    <Provider store={store}>
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>
+    </Provider>
   );
 }
